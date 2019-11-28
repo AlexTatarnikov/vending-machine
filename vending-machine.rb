@@ -5,7 +5,7 @@ require 'bigdecimal'
 require 'colorize'
 
 ITEMS = {
-  Cola:      { price: BigDecimal('3'), amount: 5,  label: 'Cola'.red },
+  Cola:      { price: BigDecimal('3.5'), amount: 5,  label: 'Cola'.red },
   Chips:     { price: BigDecimal('2'), amount: 10, label: 'Chips'.light_yellow },
   Chocolate: { price: BigDecimal('5'), amount: 7,  label: 'Chocolate'.light_magenta },
 }.freeze
@@ -36,7 +36,7 @@ class VendingMachine
       @items.each do |item, info|
         menu.choice(
           {
-            name:     "#{info[:label]}. Amount: #{info[:amount]}, Price: #{info[:price].to_i}",
+            name:     "#{info[:label]}. Amount: #{info[:amount]}, Price: #{info[:price].to_f}",
             value:    item,
             disabled: ('(out of stock)' if info[:amount].zero?)
           }
@@ -47,12 +47,10 @@ class VendingMachine
     inserted_coins = insert_coins(item)
     odd_money = odd_money(item, inserted_coins)
 
-    give_item(item, inserted_coins, odd_money)
+    give_item(item, *odd_money)
   end
 
-  def give_item(item, inserted_coins, odd_money)
-    rest_sum, odd_money = odd_money
-
+  def give_item(item, rest_sum, odd_money)
     @items[item][:amount] -= 1
 
     puts "\n"
