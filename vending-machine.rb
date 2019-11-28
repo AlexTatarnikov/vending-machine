@@ -25,7 +25,7 @@ class VendingMachine
   def initialize
     @items = ITEMS.dup
     @coins = COINS.dup.sort.reverse.to_h
-    @prompt = prompt = TTY::Prompt.new
+    @prompt = TTY::Prompt.new
   end
 
   def menu
