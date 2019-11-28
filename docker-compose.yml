@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+  vending-machine:
+    build: .
+    stdin_open: true
+    tty: true
+    command: bash
+    volumes:
+      - .:/usr/src/app
